@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BD Job Auto-Filler</title>
+  <style>
+    body { 
+      font-family: Arial, sans-serif; 
+      width: 350px;
+      padding: 15px;
+      margin: 0;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+    .header h2 {
+      margin: 0;
+      color: #333;
+    }
+    .edit-btn {
+      background-color: #2196F3;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .edit-btn:hover {
+      background-color: #0b7dda;
+    }
+    .edit-btn i {
+      font-size: 14px;
+    }
+    .form-group {
+      margin-bottom: 10px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #555;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      margin: 8px 0;
+      cursor: pointer;
+      width: 100%;
+      border-radius: 4px;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    button:disabled {
+      background-color: #cccccc;
+      cursor: not-allowed;
+    }
+    .tabs {
+      display: flex;
+      margin-bottom: 15px;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid #ddd;
+    }
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 10px;
+      background: #f8f8f8;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+    .tab:not(:last-child) {
+      border-right: 1px solid #ddd;
+    }
+    .tab.active {
+      background: #4CAF50;
+      color: white;
+      font-weight: bold;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <div class="header">
+    <h2>BD Job Auto-Filler</h2>
+    <button id="edit-btn" class="edit-btn" title="Edit Personal Information">
+      <i class="fas fa-edit"></i> Edit
+    </button>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" data-tab="save">Save Info</div>
+    <div class="tab" data-tab="fill">Auto Fill</div>
+  </div>
+
+  <div id="save-tab" class="tab-content active">
+    <button id="save-info-btn">Save Info</button>
+    <div id="info-status" style="font-size: 12px; color: #666; text-align: center; margin-top: 5px;">
+      No information saved yet
+    </div>
+  </div>
+
+  <div id="fill-tab" class="tab-content">
+    <h3>Auto Fill Forms</h3>
+    <p>Click the button below to auto-fill forms on the current page.</p>
+    <button id="startBtn">start button</button>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
