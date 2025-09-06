@@ -2,9 +2,9 @@
 const defaultPersonalInfo = {
   name: "rasel",
   name_bn: "রাসেল",
-  father: "Md. Rasel",
-  father_bn: "শরিফ ",
-  mother: "Rasel Begum",
+  father: "Md.",
+  father_bn: " ",
+  mother: "",
   mother_bn: "বেগম",
   dob: "1995-05-20",
   nationality: "Bangladeshi",
@@ -18,7 +18,7 @@ const defaultPersonalInfo = {
 
 // Default address information
 const defaultAddressInfo = {
-  present_careof: '',
+  present_careof: 'jk',
   present_village: '',
   present_district: '',
   present_upazila: '',
@@ -26,24 +26,33 @@ const defaultAddressInfo = {
   present_postcode: ''
 };
 
-// Default academic information
-const defaultAcademicInfo = {
-  ssc_exam: '',
-  ssc_roll: '',
-  ssc_group: '',
-  ssc_board: '',
-  ssc_result_type: '',
-  ssc_result: '',
-  ssc_year: '',
 
-  gra_exam: '',
-  gra_institute: '',
-  gra_year: '',
-  gra_subject: '',
-  gra_result_type: '',
-  gra_result: '',
-  gra_duration: ''
-};
+  const  defaultAcademicInfo= {
+  ssc_exam: "1",
+  ssc_roll: "232323",
+  ssc_group: "1",
+  ssc_board: "14",
+  ssc_result_type: "5",
+  ssc_result: "5.00",
+  ssc_year: "2015",
+  
+  hsc_exam: "1",
+  hsc_roll: "323232",
+  hsc_group: "1",
+  hsc_board: "14",
+  hsc_result_type: "5",
+  hsc_result: "",
+  hsc_year: "2017",
+
+  gra_exam: "1",
+  gra_institute: "273",
+  gra_year: "2022",
+  gra_subject: "306",
+  gra_result_type: "4",
+  gra_result: "",
+  gra_duration: "04",
+  };
+
 
 // Generate a random job ID
 function generateJobId() {
@@ -71,17 +80,20 @@ function saveToStorage(key, data) {
 // Save personal information to Chrome storage
 function savePersonalInfo(personalInfo) {
   console.log('Saving personal info:', personalInfo);
+  alert('Saving personal info:');
   saveToStorage('personalInfo', personalInfo);
 }
 
 function saveAddressInfo(addressInfo) {
   console.log('Saving address info:', addressInfo);
-  saveToStorage('address_info', addressInfo);
+  alert('Saving address info:');
+  saveToStorage('addressInfo', addressInfo);
 }
 
 function saveAcademicInfo(academicInfo) {
   console.log('Saving academic info:', academicInfo);
-  saveToStorage('academic_info', academicInfo);
+  alert('Saving academic info:');
+  saveToStorage('academicInfo', academicInfo);
 }
 
 // Generic load helper
@@ -100,15 +112,15 @@ function loadPersonalInfo() {
 }
 
 function loadAddressInfo() {
-  loadFromStorage(['address_info'], function(result){
-    const addressInfo = result.address_info || defaultAddressInfo;
+  loadFromStorage(['addressInfo'], function(result){
+    const addressInfo = result.addressInfo || defaultAddressInfo;
     populateFields(addressInfo);
   });
 }
 
 function loadAcademicInfo() {
-  loadFromStorage(['academic_info'], function(result){
-    const academicInfo = result.academic_info || defaultAcademicInfo;
+  loadFromStorage(['academicInfo'], function(result){
+    const academicInfo = result.academicInfo || defaultAcademicInfo;
     populateFields(academicInfo);
   });
 }
@@ -232,7 +244,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Section elements
   const personalForm = document.getElementById('personalInfoForm');
   const addressSection = document.getElementById('addressSection');
-  const academicForm = personalForm.closest('form');
+  const academicForm = document.getElementById('academicForm');
 
   // Personal info save button
   const personalBtn = document.getElementById('savePersonalBtn');
@@ -266,6 +278,10 @@ document.addEventListener('DOMContentLoaded', function() {
   // Academic info save button
   const academicBtn = document.getElementById('saveAcademicBtn');
   academicBtn.addEventListener('click', function(){
+    if (!academicForm) {
+      showStatus('Academic form not found!', 'error');
+      return;
+    }
     const data = collectData(academicForm);
     saveAcademicInfo(data);
   });

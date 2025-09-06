@@ -19,41 +19,39 @@ window.addEventListener("message", async (event) => {
     console.error('Error retrieving personal info from storage:', error);
     return;
   }
-  
-  const academic_info = {
-  ssc_exam: "1",
-  ssc_roll: "158222",
-  ssc_group: "1",
-  ssc_board: "14",
-  ssc_result_type: "5",
-  ssc_result: "4.80",
-  ssc_year: "2015",
-  
-  hsc_exam: "1",
-  hsc_roll: "164178",
-  hsc_group: "1",
-  hsc_board: "14",
-  hsc_result_type: "5",
-  hsc_result: "4.75",
-  hsc_year: "2017",
+  let academicInfo = {};
+  try {
+    const result = await chrome.storage.sync.get('academicInfo');
+    academicInfo = result.academicInfo || {};
+    console.log('Retrieved academic info:', academicInfo);
 
-  gra_exam: "1",
-  gra_institute: "273",
-  gra_year: "2022",
-  gra_subject: "306",
-  gra_result_type: "4",
-  gra_result: "3.22",
-  gra_duration: "04",
-  };
+    if (Object.keys(academicInfo).length === 0) {
+      console.warn('No academic info found in storage. Please set your information in the extension options.');
+      return;
+    }
+  } catch (error) {
+    console.error('Error retrieving academic info from storage:', error);
+    return;
+  }
+  console.log("rasel academic",academicInfo);
+  
+  let addressInfo = {};
+  try {
+    const result = await chrome.storage.sync.get('addressInfo');
+    addressInfo = result.addressInfo || {};
+    console.log('Retrieved address info:', addressInfo);
 
-  const address_info = {
-  present_careof: "Md. Rasel",
-  present_village: "123/B, Fakirapool Road, Dhaka",
-  present_district: "44",
-  present_upazila: "376",
-  present_post: "Melandaha",
-  present_postcode: "1990"
-  };
+    if (Object.keys(addressInfo).length === 0) {
+      console.warn('No academic info found in storage. Please set your information in the extension options.');
+      return;
+    }
+  } catch (error) {
+    console.error('Error retrieving academic info from storage:', error);
+    return;
+  }
+  console.log("rasel address",addressInfo);
+
+  console.log(personalInfo, academicInfo, addressInfo);
   function selectInfo(name, val){
     setTimeout(() => {
     const rel = document.getElementById(name);
@@ -90,44 +88,45 @@ window.addEventListener("message", async (event) => {
   document.getElementById("dep_status").value = 5;
 
   // academic info
-  selectInfo("ssc_exam",academic_info.ssc_exam)
-  selectInfo("ssc_roll",academic_info.ssc_roll)
-  selectInfo("ssc_group",academic_info.ssc_group)
-  selectInfo("ssc_board",academic_info.ssc_board)
-  selectInfo("ssc_result_type",academic_info.ssc_result_type)
-  document.getElementById("ssc_result").value = academic_info.ssc_result;
-  document.getElementById("ssc_year").value = academic_info.ssc_year;
+  selectInfo("ssc_exam",academicInfo.ssc_exam)
+  selectInfo("ssc_roll",academicInfo.ssc_roll)
+  selectInfo("ssc_group",academicInfo.ssc_group)
+  selectInfo("ssc_board",academicInfo.ssc_board)
+  selectInfo("ssc_result_type",academicInfo.ssc_result_type)
+  document.getElementById("ssc_result").value = academicInfo.ssc_result;
+  document.getElementById("ssc_year").value = academicInfo.ssc_year;
   try{
-    selectInfo("hsc_exam",academic_info.hsc_exam)
-    selectInfo("hsc_roll",academic_info.hsc_roll)
-    selectInfo("hsc_group",academic_info.hsc_group)
-    selectInfo("hsc_board",academic_info.hsc_board)
-    selectInfo("hsc_result_type",academic_info.hsc_result_type)
-    document.getElementById("hsc_result").value = academic_info.hsc_result;
-    document.getElementById("hsc_year").value = academic_info.hsc_year;
+    selectInfo("hsc_exam",academicInfo.hsc_exam)
+    selectInfo("hsc_roll",academicInfo.hsc_roll)
+    selectInfo("hsc_group",academicInfo.hsc_group)
+    selectInfo("hsc_board",academicInfo.hsc_board)
+    selectInfo("hsc_result_type",academicInfo.hsc_result_type)
+    document.getElementById("hsc_result").value = academicInfo.hsc_result;
+    document.getElementById("hsc_year").value = academicInfo.hsc_year;
   }catch(e){
     console.log(e);
   }
   try{
-    selectInfo("gra_exam",academic_info.gra_exam)
-    selectInfo("gra_institute",academic_info.gra_institute)
-    selectInfo("gra_year",academic_info.gra_year)
-    selectInfo("gra_subject",academic_info.gra_subject)
-    selectInfo("gra_result_type",academic_info.gra_result_type)
-    document.getElementById("gra_result").value = academic_info.gra_result;
-    selectInfo("gra_duration",academic_info.gra_duration)
+    selectInfo("gra_exam",academicInfo.gra_exam)
+    selectInfo("gra_institute",academicInfo.gra_institute)
+    selectInfo("gra_year",academicInfo.gra_year)
+    selectInfo("gra_subject",academicInfo.gra_subject)
+    selectInfo("gra_result_type",academicInfo.gra_result_type)
+    document.getElementById("gra_result").value = academicInfo.gra_result;
+    selectInfo("gra_duration",academicInfo.gra_duration)
   }catch(e){
     console.log(e);
   }
 
 
   // address info
-  document.getElementById("present_careof").value = address_info.present_careof;
-  document.getElementById("present_village").value = address_info.present_village;
-  selectInfo("present_district",address_info.present_district)
-  selectInfo("present_upazila",address_info.present_upazila)
-  document.getElementById("present_post").value = address_info.present_post;
-  document.getElementById("present_postcode").value = address_info.present_postcode;
+  console.log("addressInfo_careoff",addressInfo.permanent_careof,addressInfo.present_village);
+  document.getElementById("present_careof").value = addressInfo.permanent_careof;
+  document.getElementById("present_village").value = addressInfo.permanent_village;
+  selectInfo("present_district",addressInfo.permanent_district)
+  selectInfo("present_upazila",addressInfo.permanent_upazila)
+  document.getElementById("present_post").value = addressInfo.permanent_post;
+  document.getElementById("present_postcode").value = addressInfo.permanent_postcode;
 
   console.log("Form filled!");
 });

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Single Select Checkbox</title>
+  <style>
+    .btn {
+      margin: 5px;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      background-color: #007BFF;
+      color: white;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background-color: #0056b3;
+    }
+    .checkbox-item {
+      margin: 5px 0;
+      font-size: 16px;
+    }
+    #output {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: darkgreen;
+    }
+  </style>
+</head>
+<body>
+  <h3>Single Select Checkbox</h3>
+  <button id="addBtn" class="btn">➕ Add Checkbox</button>
+  <button id="submitBtn" class="btn">✅ Submit</button>
+  <div id="checkboxContainer"></div>
+
+  <div id="output">👉 Selected name will appear here</div>
+
+  <script>
+    const container = document.getElementById("checkboxContainer");
+    const output = document.getElementById("output");
+
+    // Add new checkbox
+    document.getElementById("addBtn").addEventListener("click", function() {
+      let name = prompt("Enter checkbox name:");
+      if (!name) return;
+
+      let div = document.createElement("div");
+      div.className = "checkbox-item";
+
+      let checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.value = name;
+
+      // Allow only one checkbox at a time
+      checkbox.addEventListener("change", function() {
+        if (checkbox.checked) {
+          container.querySelectorAll("input[type='checkbox']").forEach(cb => {
+            if (cb !== checkbox) cb.checked = false;
+          });
+        }
+      });
+
+      let label = document.createElement("label");
+      label.textContent = " " + name;
+
+      div.appendChild(checkbox);
+      div.appendChild(label);
+      container.appendChild(div);
+    });
+
+    // Submit button → show selected name
+    document.getElementById("submitBtn").addEventListener("click", function() {
+      let selected = container.querySelector("input[type='checkbox']:checked");
+      if (selected) {
+        output.textContent = "✅ Selected: " + selected.value;
+      } else {
+        output.textContent = "⚠️ No checkbox selected!";
+      }
+    });
+  </script>
+</body>
+</html>
